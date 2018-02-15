@@ -18,12 +18,14 @@
     "url": "https://github.com/ProtoCards/proto-backend/issues"
   },
   "dependencies": {
-   "body-parser": "^1.18.2",
-   "express": "^4.16.2",
-   "morgan": "^1.9.0",
- },
- "devDependencies": {
-   "nodemon": "^1.12.1"
- },
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "mongodb": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1",
+    "dotenv": "^5.0.0"
+  },
   "homepage": "https://github.com/ProtoCards/proto-backend#readme"
 }
