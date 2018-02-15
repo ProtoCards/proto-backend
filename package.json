@@ -1,0 +1,21 @@
+{
+  "name": "proto-backend",
+  "version": "1.0.0",
+  "description": "Backend for ProtoCards app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProtoCards/proto-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProtoCards/proto-backend/issues"
+  },
+  "homepage": "https://github.com/ProtoCards/proto-backend#readme"
+}
