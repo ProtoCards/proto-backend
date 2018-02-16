@@ -16,11 +16,13 @@ app.get('/', (req, res) => {
   res.send("You made it!")
 })
 
-app.get('/projects', (req, res) => {
-  req.db.collection('projects').find().toArray((err, results) => {
-    res.send(results)
-  })
-})
+const router = require('./src/routes/routes')
+app.use('/projects', router)
+// app.get('/projects', (req, res) => {
+//   req.db.collection('projects').find().toArray((err, results) => {
+//     res.send(results)
+//   })
+// })
 
 const listener = () => console.log(`Listening on port ${port}`);
 app.listen(port, listener)
