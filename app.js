@@ -25,7 +25,4 @@ app.get('/', (req, res) => {
 const router = require('./src/routes/routes')
 app.use('/projects', router)
 
-
-
-
 module.exports = app

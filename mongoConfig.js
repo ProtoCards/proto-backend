@@ -16,7 +16,6 @@ const connectDB = async (callback) => {
 }
 
 const getDB = () => {
-  console.log(_db)
   return _db
 }
 
