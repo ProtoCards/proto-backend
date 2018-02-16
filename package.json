@@ -20,8 +20,9 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "morgan": "^1.9.0",
-    "mongodb": "^3.0.2"
+    "express-mongo-db": "^2.0.4",
+    "mongodb": "^3.0.2",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",
