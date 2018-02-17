@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
   res.send("You made it!")
 })
 
-const router = require('./src/routes/routes')
-app.use('/projects', router)
+const projectRouter = require('./src/routes/projectRoutes')
+app.use('/projects', projectRouter)
+
 
 module.exports = app

@@ -1,7 +1,7 @@
-const model = require('../models/projects')
+const model = require('../models/cards')
 
 const getAllProjectCards = ((req, res) => {
-  model.getAllProjectCards()
+  model.getAllProjectCards(req.params.projectId)
     .then((cards) => res.json(cards))
 })
 
