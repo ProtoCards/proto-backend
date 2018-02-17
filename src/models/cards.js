@@ -9,4 +9,16 @@ const getAllProjectCards = (projectId) => {
     })
 }
 
-module.exports = {getAllProjectCards}
+const createCard = (projectId, params) => {
+  console.log(params)
+  return db().collection('cards').insertOne({
+    "projectId": projectId,
+    "quantity": params.quantity,
+    "properties": params.properties
+  })
+  .then((card) => {
+    return card.ops[0]
+  })
+}
+
+module.exports = {getAllProjectCards, createCard}

@@ -5,5 +5,6 @@ const cardCtrl = require('../controllers/cardControllers')
 
 router.get('/', projectCtrl.getAllProjects)
 router.get('/:projectId/cards', cardCtrl.getAllProjectCards)
+router.post('/:projectId/cards', cardCtrl.createCard)
 
 module.exports = router
