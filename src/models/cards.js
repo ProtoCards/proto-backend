@@ -10,7 +10,6 @@ const getAllProjectCards = (projectId) => {
 }
 
 const createCard = (projectId, params) => {
-  console.log(params)
   return db().collection('cards').insertOne({
     "projectId": projectId,
     "quantity": params.quantity,
@@ -21,4 +20,14 @@ const createCard = (projectId, params) => {
   })
 }
 
-module.exports = {getAllProjectCards, createCard}
+const updateCard = (cardId, params) => {
+  return db().collection('cards').updateOne(
+    {_id: cardId},
+    {$set: params, $currentDate: {lastModified: true}}
+  )
+  .then((card) => {
+    return card.ops[0]
+  })
+}
+
+module.exports = {getAllProjectCards, createCard, updateCard}

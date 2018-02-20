@@ -12,4 +12,9 @@ const createCard = ((req, res) => {
     .then((card) => res.json(card))
 })
 
-module.exports = {getAllProjectCards, createCard}
+const updateCard = ((req, res) => {
+  model.updateCard(req.params.cardId, req.body)
+    .then((card) => res.json(card))
+})
+
+module.exports = {getAllProjectCards, createCard, updateCard}
