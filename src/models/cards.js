@@ -21,13 +21,16 @@ const createCard = (projectId, params) => {
 }
 
 const updateCard = (cardId, params) => {
+  console.log("in the model method")
   return db().collection('cards').updateOne(
     {_id: cardId},
-    {$set: params, $currentDate: {lastModified: true}}
+    {$set: {"quantity": 5}, $currentDate: {lastModified: true}}
   )
   .then((card) => {
-    return card.ops[0]
+    console.log(card)
+    return
   })
+  .catch((error) => console.log(error))
 }
 
 module.exports = {getAllProjectCards, createCard, updateCard}
