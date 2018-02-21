@@ -13,9 +13,12 @@ const createCard = ((req, res) => {
 })
 
 const updateCard = ((req, res) => {
-  console.log("controller")
   model.updateCard(req.params.cardId, req.body)
     .then((card) => res.json(card))
 })
 
-module.exports = {getAllProjectCards, createCard, updateCard}
+const deleteCard = ((req, res) => {
+  model.deleteCard(req.params.cardId)
+    .then((result) => res.json(card))
+})
+module.exports = {getAllProjectCards, createCard, updateCard, deleteCard}

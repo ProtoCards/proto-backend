@@ -7,5 +7,6 @@ router.get('/', projectCtrl.getAllProjects)
 router.get('/:projectId/cards', cardCtrl.getAllProjectCards)
 router.post('/:projectId/cards', cardCtrl.createCard)
 router.put('/:projectId/cards/:cardId', cardCtrl.updateCard)
+router.delete('/:projectId/cards/:cardId', cardCtrl.deleteCard)
 
 module.exports = router

@@ -13,9 +13,12 @@ app.use(morgan('dev'))
 app.use(cors())
 
 mongo.connectDB(async (err) => {
-  if (err) throw err
-  const listener = () => console.log(`Listening on port ${port}`);
-  app.listen(port, listener)
+  if (err) {
+    throw err
+  } else {
+    const listener = () => console.log(`Listening on port ${port}`);
+    app.listen(port, listener)
+  }
 })
 
 app.get('/', (req, res) => {

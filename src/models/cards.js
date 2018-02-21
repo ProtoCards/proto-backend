@@ -21,16 +21,21 @@ const createCard = (projectId, params) => {
 }
 
 const updateCard = (cardId, params) => {
-  console.log("in the model method")
-  return db().collection('cards').updateOne(
+  return db().collection('cards').replaceOne(
     {_id: cardId},
-    {$set: {"quantity": 5}, $currentDate: {lastModified: true}}
+    params
   )
   .then((card) => {
-    console.log(card)
-    return
+    return card.ops[0]
   })
   .catch((error) => console.log(error))
 }
 
-module.exports = {getAllProjectCards, createCard, updateCard}
+const deleteCard = (cardId) => {
+  return db().collection('cards').deleteOne({"_id": ObjectId(cardId)})
+  .then((result) => {
+    return result.result.n
+  })
+}
+
+module.exports = {getAllProjectCards, createCard, updateCard, deleteCard}
