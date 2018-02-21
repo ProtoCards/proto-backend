@@ -1,7 +1,7 @@
 const express = require('express');
 const { buildSchema } = require('graphql');
 const projectModel = require('../models/projects')
-
+const cardModel = require('../models/cards')
 
 const schema = buildSchema(`
   type Project {
@@ -10,10 +10,23 @@ const schema = buildSchema(`
     ownerId: Int
   }
 
+  type Card {
+    _id: String
+    quantity: Int
+    properties: [Property]
+  }
+
+  type Property {
+    name: String
+    fieldId: String
+    content: String
+  }
+
   type Query {
     hello: String
     project(id: String): Project
     getProjects(ownerId: String): [Project]
+    getProjectCards(projectId: String): [Card]
   }
 
 `)
@@ -29,6 +42,12 @@ const root = {
     return projectModel.getAllProjects()
       .then((projects) => {
         return projects
+      })
+  },
+  getProjectCards: (args) => {
+    return cardModel.getAllProjectCards(args.projectId)
+      .then((cards) => {
+        return cards
       })
   },
 }
