@@ -5,13 +5,14 @@ const cardModel = require('../models/cards')
 
 const schema = buildSchema(`
   type Project {
-    _id: String
+    _id: ID
     name: String
     ownerId: Int
   }
 
   type Card {
-    _id: String
+    _id: ID
+    projectId: ID
     quantity: Int
     properties: [Property]
   }
@@ -27,6 +28,22 @@ const schema = buildSchema(`
     project(id: String): Project
     getProjects(ownerId: String): [Project]
     getProjectCards(projectId: String): [Card]
+  }
+
+  input PropertyInput {
+    name: String!
+    fieldId: String
+    content: String!
+  }
+
+  input CardInput {
+    projectId: ID!
+    quantity: Int!
+    properties: [PropertyInput]
+  }
+
+  type Mutation {
+    createCard(input: CardInput): Card
   }
 
 `)
@@ -50,6 +67,13 @@ const root = {
         return cards
       })
   },
+  createCard: (args) => {
+    return cardModel.createCard(args.input)
+      .then((card) => {
+        console.log(card)
+        return card
+      })
+  }
 }
 
 module.exports = {schema, root}

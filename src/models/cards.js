@@ -11,12 +11,8 @@ const getAllProjectCards = (projectId) => {
     })
 }
 
-const createCard = (projectId, params) => {
-  return db().collection('cards').insertOne({
-    "projectId": projectId,
-    "quantity": params.quantity,
-    "properties": params.properties
-  })
+const createCard = (params) => {
+  return db().collection('cards').insertOne(params)
   .then((card) => {
     return card.ops[0]
   })
