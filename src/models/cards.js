@@ -18,6 +18,12 @@ const createCard = (params) => {
   })
 }
 
+const createManyCards = (params) => {
+  return db().collection('cards').insertMany(params)
+    .then((cards) => {
+      return cards.ops
+    })
+}
 const updateCard = (cardId, params) => {
   console.log(cardId)
   console.log(params)
@@ -39,4 +45,4 @@ const deleteCard = (cardId) => {
   })
 }
 
-module.exports = {getAllProjectCards, createCard, updateCard, deleteCard}
+module.exports = {getAllProjectCards, createCard, createManyCards, updateCard, deleteCard}

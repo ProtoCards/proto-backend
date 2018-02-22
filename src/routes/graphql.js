@@ -46,6 +46,7 @@ const schema = buildSchema(`
     createCard(input: CardInput): Card
     updateCard(_id: ID!, input: CardInput): Card
     deleteCard(_id: ID!): Card
+    createMultipleCards(input: [CardInput]): [Card]
   }
 
 `)
@@ -85,6 +86,12 @@ const root = {
     return cardModel.deleteCard(args._id)
       .then((card) => {
         return card
+      })
+  },
+  createMultipleCards: (args) => {
+    return cardModel.createManyCards(args.input)
+      .then((cards) => {
+        return cards
       })
   }
 }
