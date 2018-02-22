@@ -45,6 +45,7 @@ const schema = buildSchema(`
   type Mutation {
     createCard(input: CardInput): Card
     updateCard(_id: ID!, input: CardInput): Card
+    deleteCard(_id: ID!): Card
   }
 
 `)
@@ -75,10 +76,14 @@ const root = {
       })
   },
   updateCard: (args) => {
-    console.log(args._id)
     return cardModel.updateCard(args._id, args.input)
       .then((card) => {
-        console.log(card)
+        return card
+      })
+  },
+  deleteCard: (args) => {
+    return cardModel.deleteCard(args._id)
+      .then((card) => {
         return card
       })
   }

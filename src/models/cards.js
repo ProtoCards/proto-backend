@@ -33,9 +33,9 @@ const updateCard = (cardId, params) => {
 }
 
 const deleteCard = (cardId) => {
-  return db().collection('cards').deleteOne({"_id": ObjectId(cardId)})
+  return db().collection('cards').findOneAndDelete({"_id": ObjectId(cardId)})
   .then((result) => {
-    return result.result.n
+    return result.value
   })
 }
 
