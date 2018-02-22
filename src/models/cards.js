@@ -19,12 +19,15 @@ const createCard = (params) => {
 }
 
 const updateCard = (cardId, params) => {
-  return db().collection('cards').replaceOne(
-    {_id: cardId},
-    params
-  )
+  console.log(cardId)
+  console.log(params)
+  return db().collection('cards').findOneAndUpdate(
+    {_id: ObjectId(cardId)},
+    {$set: params},
+    {returnOriginal: false})
   .then((card) => {
-    return card.ops[0]
+    console.log(card)
+    return card.value
   })
   .catch((error) => console.log(error))
 }
