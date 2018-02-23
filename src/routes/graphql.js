@@ -26,7 +26,7 @@ const schema = buildSchema(`
   type Query {
     hello: String
     project(id: String): Project
-    getProjects(ownerId: String): [Project]
+    getProjects(ownerId: Int): [Project]
     getProjectCards(projectId: String): [Card]
   }
 
@@ -56,7 +56,7 @@ const root = {
     return 'Hello World'
   },
   project: (id) => {
-    return projectModel.getProject(id).then((project) => new Project(project))
+    return projectModel.getProject(id).then((project) => project)
   },
   getProjects: (ownerId) => {
     return projectModel.getAllProjects()
