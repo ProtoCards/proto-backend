@@ -6,8 +6,6 @@ const getAllProjectCards = ((req, res) => {
 })
 
 const createCard = ((req, res) => {
-  console.log(req.body)
-  console.log(req.params)
   model.createCard(req.params.projectId, req.body)
     .then((card) => res.json(card))
 })

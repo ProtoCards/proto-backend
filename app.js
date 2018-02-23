@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const mongo = require('./mongoConfig')
 const cors = require('cors')
+const graphqlHTTP = require('express-graphql');
+
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -11,6 +13,7 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors())
+
 
 mongo.connectDB(async (err) => {
   if (err) {
@@ -28,5 +31,11 @@ app.get('/', (req, res) => {
 const projectRouter = require('./src/routes/projectRoutes')
 app.use('/projects', projectRouter)
 
+const graphqlRouter = require('./src/routes/graphql')
+app.use('/graphql', graphqlHTTP({
+  schema: graphqlRouter.schema,
+  rootValue: graphqlRouter.root,
+  graphiql: true
+}))
 
 module.exports = app
