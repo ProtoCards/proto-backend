@@ -1,8 +1,8 @@
-import {GraphQLSchema} from 'graphql';
+const {GraphQLSchema} = require('graphql')
+const query = require('./rootQuery')
 
 const rootSchema = new GraphQLSchema({
   query
-  mutation
 })
 
 module.exports = rootSchema
