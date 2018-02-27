@@ -14,7 +14,6 @@ app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors())
 
-
 mongo.connectDB(async (err) => {
   if (err) {
     throw err

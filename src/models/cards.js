@@ -2,10 +2,8 @@ const db = require('../../mongoConfig').getDB
 const ObjectId = require('mongodb').ObjectId;
 
 const getAllProjectCards = (projectId) => {
-  console.log(projectId)
   return db().collection('cards').find({projectId: projectId}).toArray()
     .then((err, results) => {
-      console.log(results)
       if (err) return err
       return results
     })
@@ -25,14 +23,11 @@ const createManyCards = (params) => {
     })
 }
 const updateCard = (cardId, params) => {
-  console.log(cardId)
-  console.log(params)
   return db().collection('cards').findOneAndUpdate(
     {_id: ObjectId(cardId)},
     {$set: params},
     {returnOriginal: false})
   .then((card) => {
-    console.log(card)
     return card.value
   })
   .catch((error) => console.log(error))
