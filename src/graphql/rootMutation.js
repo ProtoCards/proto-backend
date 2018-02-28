@@ -2,6 +2,7 @@ const graphql = require('graphql')
 const createCard = require('./mutations/createCard')
 const createCards = require('./mutations/createCards')
 const updateCard = require('./mutations/updateCard')
+const deleteCard = require('./mutations/deleteCard')
 
 const mutation = new graphql.GraphQLObjectType({
   name: 'Mutation',
@@ -9,7 +10,8 @@ const mutation = new graphql.GraphQLObjectType({
   fields: {
     createCard,
     createCards,
-    updateCard
+    updateCard,
+    deleteCard,
   }
 })
 
