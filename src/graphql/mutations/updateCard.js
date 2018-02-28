@@ -7,9 +7,14 @@ const updateCardMutation = {
   type: CardType,
   description: "Create a new card for a certain project",
   args: {
-    _id: {type: graphql.GraphQLID},
-    // see src/graphql/types/cardInputType
-    input: {type: CardInputType}
+    _id: {
+      type: graphql.GraphQLID,
+      description: "The card's ID"
+    },
+    input: {
+      type: CardInputType,
+      description: "Takes projectId, quantity, properties: [{name, fieldId, content}]"
+    }
   },
   resolve: (source, args) => {
     return cardModel.updateCard(args._id, args.input)

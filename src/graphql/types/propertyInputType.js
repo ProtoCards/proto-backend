@@ -5,13 +5,16 @@ const PropertyInputType = new graphql.GraphQLInputObjectType({
   description: "Input schema for card properties",
   fields: {
     name: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLString,
+      description: "The name of the property (ex. title, health)"
     },
     fieldId: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLString,
+      description: "The ID of the field on the card"
     },
     content: {
-      type: graphql.GraphQLString
+      type: graphql.GraphQLString,
+      description: "The content of the property (ex. 'Title of Card')"
     }
   }
 })

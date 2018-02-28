@@ -7,8 +7,10 @@ const createCardsMutation = {
   type: new graphql.GraphQLList(CardType),
   description: "Create multiple new cards for a certain project",
   args: {
-    // see src/graphql/types/cardInputType
-    input: {type: new graphql.GraphQLList(CardInputType)}
+    input: {
+      type: new graphql.GraphQLList(CardInputType),
+      description: "Takes an array of cards with: projectId, quantity, properties: [{name, fieldId, content}]"
+    }
   },
   resolve: (source, args) => {
     return cardModel.createManyCards(args.input)
