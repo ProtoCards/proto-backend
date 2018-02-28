@@ -7,6 +7,7 @@ const createCardMutation = {
   type: CardType,
   description: "Create a new card for a certain project",
   args: {
+    // see src/graphql/types/cardInputType
     input: {type: CardInputType}
   },
   resolve: (source, args) => {
