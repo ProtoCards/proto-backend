@@ -23,13 +23,6 @@ mongo.connectDB(async (err) => {
   }
 })
 
-app.get('/', (req, res) => {
-  res.send("You made it!")
-})
-
-const projectRouter = require('./src/routes/projectRoutes')
-app.use('/projects', projectRouter)
-
 const schema = require('./src/graphql/schema')
 app.use('/graphql', graphqlHTTP({
   schema,
