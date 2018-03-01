@@ -14,7 +14,6 @@ app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors())
 
-
 mongo.connectDB(async (err) => {
   if (err) {
     throw err
@@ -24,17 +23,9 @@ mongo.connectDB(async (err) => {
   }
 })
 
-app.get('/', (req, res) => {
-  res.send("You made it!")
-})
-
-const projectRouter = require('./src/routes/projectRoutes')
-app.use('/projects', projectRouter)
-
-const graphqlRouter = require('./src/routes/graphql')
+const schema = require('./src/graphql/schema')
 app.use('/graphql', graphqlHTTP({
-  schema: graphqlRouter.schema,
-  rootValue: graphqlRouter.root,
+  schema,
   graphiql: true
 }))
 
