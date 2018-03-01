@@ -9,6 +9,14 @@ const getAllProjectCards = (projectId) => {
     })
 }
 
+const getCard = (id) => {
+  return db().collection('cards').findOne({"_id": ObjectId(id)})
+    .then((err, results) => {
+      if (err) return err
+      return results
+    })
+}
+
 const createCard = (params) => {
   return db().collection('cards').insertOne(params)
   .then((card) => {
@@ -40,4 +48,4 @@ const deleteCard = (cardId) => {
   })
 }
 
-module.exports = {getAllProjectCards, createCard, createManyCards, updateCard, deleteCard}
+module.exports = {getAllProjectCards, getCard, createCard, createManyCards, updateCard, deleteCard}
