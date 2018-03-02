@@ -5,7 +5,6 @@ const mongo = require('./mongoConfig')
 const cors = require('cors')
 const graphqlHTTP = require('express-graphql');
 
-
 const app = express()
 const port = process.env.PORT || 3000
 

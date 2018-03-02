@@ -10,6 +10,7 @@ describe('Project routes', () => {
 
   it('returns an array of projects', (done) => {
     setTimeout(done, 3000)
+    console.log(process.env.NODE_ENV)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
       chai.request(app)
