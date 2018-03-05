@@ -1,6 +1,12 @@
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient
-const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds023550.mlab.com:23550/protocards`
+let env = process.env.NODE_ENV
+let uri
+if (env === 'dev') {
+  uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds023550.mlab.com:23550/protocards`
+} else if (env === 'test') {
+  uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds119486.mlab.com:19486/protocards-test`
+}
 
 let _db
 

@@ -14,4 +14,11 @@ const getProject = (id) => {
     .then((project) => project)
 }
 
-module.exports = {getAllProjects, getProject}
+const createProject = (params) => {
+  return db().collection('projects').insertOne(params)
+  .then((project) => {
+    return project.ops[0]
+  })
+}
+
+module.exports = {getAllProjects, getProject, createProject}

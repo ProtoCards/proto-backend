@@ -1,26 +1,31 @@
 const graphql = require('graphql');
 const chai = require('chai');
 const chaiHttp = require('chai-http')
-const gqlRoutes = require('../src/routes/graphql')
 const mongo = require('../mongoConfig')
+const db = require('../mongoConfig').getDB
 const app = require('../app')
 chai.use(chaiHttp)
 const expect = chai.expect;
 
 describe('Project routes', () => {
-
-  it('does stuff', (done) => {
-    chai.request(app)
-      .get('/graphql')
-      .send({"query": "{ hello }"})
-      .end((err, res) => {
-        expect(res.body.data.hello).to.equal('Hello World')
-        done()
+  beforeEach(() => {
+    mongo.connectDB((err) => {
+      if (err) console.log(err)
+      const projectId = db().collection('projects').insertOne({name: "a project", ownerId: 1})
+      .then((project) => {
+        return project.ops[0]._id
       })
+      console.log(projectId)
+      // mongo.db().collection('cards').insertOne({projectId: projectId, quantity: 2, properties: [{name: "title", fieldId: "1", content: "A Card Title"}]})
+      //   .then((card)) => {
+      //     return
+      //   }
+    })
   })
 
   it('returns an array of projects', (done) => {
     setTimeout(done, 3000)
+    console.log(process.env.NODE_ENV)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
       chai.request(app)
