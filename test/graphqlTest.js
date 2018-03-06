@@ -45,7 +45,7 @@ describe('GraphQL queries and mutations', () => {
         }}'})
         .end((err, res) => {
           expect(res).to.have.status(200)
-          expect(res.body.data.getProjects).to.all.be.an('array')
+          expect(res.body.data.getProjects[0]).to.include({_id: projectId})
           done()
         })
     })
