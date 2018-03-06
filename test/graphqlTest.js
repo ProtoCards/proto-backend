@@ -52,7 +52,7 @@ describe('GraphQL queries and mutations', () => {
   })
 
   it('returns an array of cards belonging to a project', function(done) {
-    this.timeout(6000)
+    this.timeout(4000)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
       const query = `query getCards($projectId: ID) {
@@ -79,5 +79,40 @@ describe('GraphQL queries and mutations', () => {
           done()
         })
     })
+  })
+
+  it('returns the created card', function() {
+    this.timeout(4000)
+    const mutate = `mutation newCard($input:CardInput) {
+      createCard(input:$input) {
+        _id
+        projectId
+        quantity
+        properties {
+          name
+          fieldId
+          content
+        }
+      }
+    }`
+    chai.request(app)
+      .post('/graphql')
+      .send({
+        query: mutate,
+        variables: {"input": {
+          "projectId": projectId,
+          "quantity": 2,
+          "properties": [{
+            "name": "Title",
+            "fieldId": "H",
+            "content": "This here is a title"
+          }]
+        }}
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res.body.data.createCard).to.nested.include({'properties[0].content': 'This here is a title'})
+        done()
+      })
   })
 })
