@@ -7,23 +7,23 @@ const app = require('../app')
 chai.use(chaiHttp)
 const expect = chai.expect;
 
-describe('Project routes', () => {
+describe('GraphQL queries and mutations', () => {
   let projectId
+
   before(() => {
     mongo.connectDB((err) => {
       if (err) console.log(err)
       db().collection('projects').insertOne({name: "a project", ownerId: 1})
       .then((project) => {
-        projectId = project.ops[0]._id
+        projectId = `${project.ops[0]._id}`
+        return projectId
       })
-      db().collection('cards').insertOne({projectId: projectId, quantity: 3, properties: [{name: "title", fieldId: "h", content: "a title here"}]})
+      .then((projId) => {
+        db().collection('cards').insertOne({projectId: projId, quantity: 3, properties: [{name: "title", fieldId: "h", content: "a title here"}]})
         .then((card) => {
-          console.log(card.ops[0]._id)
+          return
         })
-      // mongo.db().collection('cards').insertOne({projectId: projectId, quantity: 2, properties: [{name: "title", fieldId: "1", content: "A Card Title"}]})
-      //   .then((card)) => {
-      //     return
-      //   }
+      })
     })
   })
 
@@ -44,7 +44,6 @@ describe('Project routes', () => {
           ownerId \
         }}'})
         .end((err, res) => {
-          console.log(res.body.data.getProjects)
           expect(res).to.have.status(200)
           expect(res.body.data.getProjects).to.all.be.an('array')
           done()
@@ -53,7 +52,7 @@ describe('Project routes', () => {
   })
 
   it('returns an array of cards belonging to a project', function(done) {
-    this.timeout(4000)
+    this.timeout(6000)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
       const query = `query getCards($projectId: ID) {
@@ -75,9 +74,8 @@ describe('Project routes', () => {
           variables: {projectId: projectId}
         })
         .end((err, res) => {
-          console.log(res.body.data)
           expect(res).to.have.status(200)
-          expect(res.body.data.getProjectCards).to.be.an('array')
+          expect(res.body.data.getProjectCards[0]).to.include({projectId: projectId})
           done()
         })
     })
