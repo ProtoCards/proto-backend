@@ -9,7 +9,7 @@ const expect = chai.expect;
 
 describe('Project routes', () => {
   let projectId
-  beforeEach(() => {
+  before(() => {
     mongo.connectDB((err) => {
       if (err) console.log(err)
       db().collection('projects').insertOne({name: "a project", ownerId: 1})
@@ -25,6 +25,11 @@ describe('Project routes', () => {
       //     return
       //   }
     })
+  })
+
+  after(() => {
+    db().collection('projects').drop()
+    db().collection('cards').drop()
   })
 
   it('returns an array of projects', function(done) {
