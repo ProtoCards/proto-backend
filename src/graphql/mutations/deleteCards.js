@@ -9,10 +9,14 @@ const deleteCardsMutation = {
     cardIds: {type: new graphql.GraphQLList(graphql.GraphQLID)}
   },
   resolve: (source, args) => {
-    console.log(cardModel.deleteCards(args.cardIds))
-      // .then((cards) => {
-      //   return cards
-      // })
+    const cards = args.cardIds.map(id => {
+      return cardModel.deleteCard(id)
+        .then((card) => {
+          return card
+        })
+    })
+    return Promise.all(cards)
+      .then((cards) => cards)
   }
 }
 

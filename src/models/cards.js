@@ -48,16 +48,4 @@ const deleteCard = (cardId) => {
   })
 }
 
-const deleteCards = (cardIds) => {
-  console.log("in the model")
-  return cardIds.forEach(id => {
-    console.log(id)
-    return db().collection('cards').findOneAndDelete({"_id": ObjectId(id)})
-    .then((result) => {
-      console.log("result", result.value)
-      return result.value
-    })
-  })
-}
-
-module.exports = {getAllProjectCards, getCard, createCard, createManyCards, updateCard, deleteCard, deleteCards}
+module.exports = {getAllProjectCards, getCard, createCard, createManyCards, updateCard, deleteCard}
