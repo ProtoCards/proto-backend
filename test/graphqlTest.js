@@ -7,25 +7,33 @@ const app = require('../app')
 chai.use(chaiHttp)
 const expect = chai.expect;
 
-describe('Project routes', () => {
-  beforeEach(() => {
+describe('GraphQL queries and mutations', () => {
+  let projectId
+
+  before(() => {
     mongo.connectDB((err) => {
       if (err) console.log(err)
-      const projectId = db().collection('projects').insertOne({name: "a project", ownerId: 1})
+      db().collection('projects').insertOne({name: "a project", ownerId: 1})
       .then((project) => {
-        return project.ops[0]._id
+        projectId = `${project.ops[0]._id}`
+        return projectId
       })
-      console.log(projectId)
-      // mongo.db().collection('cards').insertOne({projectId: projectId, quantity: 2, properties: [{name: "title", fieldId: "1", content: "A Card Title"}]})
-      //   .then((card)) => {
-      //     return
-      //   }
+      .then((projId) => {
+        db().collection('cards').insertOne({projectId: projId, quantity: 3, properties: [{name: "title", fieldId: "h", content: "a title here"}]})
+        .then((card) => {
+          return
+        })
+      })
     })
   })
 
-  it('returns an array of projects', (done) => {
-    setTimeout(done, 3000)
-    console.log(process.env.NODE_ENV)
+  after(() => {
+    db().collection('projects').drop()
+    db().collection('cards').drop()
+  })
+
+  it('returns an array of projects', function(done) {
+    this.timeout(4000)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
       chai.request(app)
@@ -37,26 +45,74 @@ describe('Project routes', () => {
         }}'})
         .end((err, res) => {
           expect(res).to.have.status(200)
-          expect(res.body.data.getProjects).to.all.be.an('array')
+          expect(res.body.data.getProjects[0]).to.include({_id: projectId})
           done()
         })
     })
   })
 
-  it('returns an array of cards belonging to a project', (done) => {
-    setTimeout(done, 3000)
+  it('returns an array of cards belonging to a project', function(done) {
+    this.timeout(4000)
     mongo.connectDB(async (err) => {
       if (err) console.log(err)
+      const query = `query getCards($projectId: ID) {
+        getProjectCards(projectId: $projectId) {
+          _id
+          projectId
+          quantity
+          properties {
+            name
+            fieldId
+            content
+          }
+        }
+      }`
       chai.request(app)
-        .get('/graphql')
-        .send({'query': '{getProjectCards(projectId: "5a861f6ef36d2873fccf8312") { \
-          _id \
-        }}'})
+        .post('/graphql')
+        .send({
+          query: query,
+          variables: {projectId: projectId}
+        })
         .end((err, res) => {
           expect(res).to.have.status(200)
-          expect(res.body.data.getProjectCards).to.be.an('array')
+          expect(res.body.data.getProjectCards[0]).to.include({projectId: projectId})
           done()
         })
     })
+  })
+
+  it('returns the created card', function() {
+    this.timeout(4000)
+    const mutate = `mutation newCard($input:CardInput) {
+      createCard(input:$input) {
+        _id
+        projectId
+        quantity
+        properties {
+          name
+          fieldId
+          content
+        }
+      }
+    }`
+    chai.request(app)
+      .post('/graphql')
+      .send({
+        query: mutate,
+        variables: {"input": {
+          "projectId": projectId,
+          "quantity": 2,
+          "properties": [{
+            "name": "Title",
+            "fieldId": "H",
+            "content": "This here is a title"
+          }]
+        }}
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res.body.data.createCard).to.nested.include({'properties[0].content': 'This here is a title'})
+        done()
+      })
   })
 })
