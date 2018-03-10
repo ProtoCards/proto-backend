@@ -17,7 +17,7 @@ const CardType = new graphql.GraphQLObjectType({
     workingTitle: {
       type: graphql.GraphQLString
     },
-    type: {
+    cardType: {
       type: graphql.GraphQLString
     },
     properties: {

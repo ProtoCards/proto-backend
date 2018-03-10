@@ -9,7 +9,7 @@ const createCardMutation = {
   args: {
     input: {
       type: CardInputType,
-      description: "Takes projectId, quantity, properties: [{name, fieldId, content}]"
+      description: "Takes projectId, printQuantity, workingTitle, cardType, properties: [{name, fieldId, content}]"
     }
   },
   resolve: (source, args) => {

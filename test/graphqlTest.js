@@ -19,7 +19,7 @@ describe('GraphQL queries and mutations', () => {
         return projectId
       })
       .then((projId) => {
-        db().collection('cards').insertOne({projectId: projId, quantity: 3, properties: [{name: "title", fieldId: "h", content: "a title here"}]})
+        db().collection('cards').insertOne({projectId: projId, printQuantity: 3, workingTitle: "a title here", cardType: "DOOM", properties: [{name: "title", fieldId: "h", content: "a title here"}]})
         .then((card) => {
           return
         })
@@ -59,7 +59,9 @@ describe('GraphQL queries and mutations', () => {
         getProjectCards(projectId: $projectId) {
           _id
           projectId
-          quantity
+          printQuantity
+          workingTitle
+          cardType
           properties {
             name
             fieldId
@@ -87,7 +89,9 @@ describe('GraphQL queries and mutations', () => {
       createCard(input:$input) {
         _id
         projectId
-        quantity
+        printQuantity
+        workingTitle
+        cardType
         properties {
           name
           fieldId
@@ -101,7 +105,9 @@ describe('GraphQL queries and mutations', () => {
         query: mutate,
         variables: {"input": {
           "projectId": projectId,
-          "quantity": 2,
+          "printQuantity": 2,
+          "workingTitle": "This here is a title",
+          "cardType": "CATS"
           "properties": [{
             "name": "Title",
             "fieldId": "H",

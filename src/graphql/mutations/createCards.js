@@ -9,7 +9,7 @@ const createCardsMutation = {
   args: {
     input: {
       type: new graphql.GraphQLList(CardInputType),
-      description: "Takes an array of cards with: projectId, quantity, properties: [{name, fieldId, content}]"
+      description: "Takes an array of cards with: projectId, printQuantity, cardType, workingTitle, properties: [{name, fieldId, content}]"
     }
   },
   resolve: (source, args) => {
