@@ -11,8 +11,14 @@ const CardType = new graphql.GraphQLObjectType({
     projectId: {
       type: graphql.GraphQLID
     },
-    quantity: {
+    printQuantity: {
       type: graphql.GraphQLInt
+    },
+    workingTitle: {
+      type: graphql.GraphQLString
+    },
+    type: {
+      type: graphql.GraphQLString
     },
     properties: {
       type: new graphql.GraphQLList(PropertyType)
