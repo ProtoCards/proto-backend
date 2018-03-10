@@ -6,7 +6,7 @@ const cors = require('cors')
 const graphqlHTTP = require('express-graphql');
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 app.disable('x-powered-by')
 app.use(bodyParser.json())
