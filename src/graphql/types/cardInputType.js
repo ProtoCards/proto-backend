@@ -9,9 +9,17 @@ const CardInputType = new graphql.GraphQLInputObjectType({
       type: graphql.GraphQLID,
       description: "The ID of the project the card belongs to"
     },
-    quantity: {
+    printQuantity: {
       type: graphql.GraphQLInt,
       description: "The number of copies of this card that appear in the deck"
+    },
+    workingTitle: {
+      type: graphql.GraphQLString,
+      description: "The working title of the card"
+    },
+    cardType: {
+      type: graphql.GraphQLString,
+      description: "The type of card"
     },
     properties: {
       type: new graphql.GraphQLList(PropertyInputType),
