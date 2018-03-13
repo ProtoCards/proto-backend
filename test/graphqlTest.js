@@ -34,53 +34,47 @@ describe('GraphQL queries and mutations', () => {
 
   it('returns an array of projects', function(done) {
     this.timeout(4000)
-    mongo.connectDB(async (err) => {
-      if (err) console.log(err)
-      chai.request(app)
-        .get('/graphql')
-        .send({'query': '{getProjects(ownerId: 1) { \
-          _id \
-          name \
-          ownerId \
-        }}'})
-        .end((err, res) => {
-          expect(res).to.have.status(200)
-          expect(res.body.data.getProjects[0]).to.include({_id: projectId})
-          done()
-        })
-    })
+    chai.request(app)
+      .get('/graphql')
+      .send({'query': '{getProjects(ownerId: 1) { \
+        _id \
+        name \
+        ownerId \
+      }}'})
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res.body.data.getProjects[0]).to.include({_id: projectId})
+        done()
+      })
   })
 
   it('returns an array of cards belonging to a project', function(done) {
     this.timeout(4000)
-    mongo.connectDB(async (err) => {
-      if (err) console.log(err)
-      const query = `query getCards($projectId: ID) {
-        getProjectCards(projectId: $projectId) {
-          _id
-          projectId
-          printQuantity
-          workingTitle
-          cardType
-          properties {
-            name
-            fieldId
-            content
-          }
+    const query = `query getCards($projectId: ID) {
+      getProjectCards(projectId: $projectId) {
+        _id
+        projectId
+        printQuantity
+        workingTitle
+        cardType
+        properties {
+          name
+          fieldId
+          content
         }
-      }`
-      chai.request(app)
-        .post('/graphql')
-        .send({
-          query: query,
-          variables: {projectId: projectId}
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(200)
-          expect(res.body.data.getProjectCards[0]).to.include({projectId: projectId})
-          done()
-        })
-    })
+      }
+    }`
+    chai.request(app)
+      .post('/graphql')
+      .send({
+        query: query,
+        variables: {projectId: projectId}
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res.body.data.getProjectCards[0]).to.include({projectId: projectId})
+        done()
+      })
   })
 
   it('returns the created card', function() {
@@ -107,7 +101,7 @@ describe('GraphQL queries and mutations', () => {
           "projectId": projectId,
           "printQuantity": 2,
           "workingTitle": "This here is a title",
-          "cardType": "CATS"
+          "cardType": "CATS",
           "properties": [{
             "name": "Title",
             "fieldId": "H",
