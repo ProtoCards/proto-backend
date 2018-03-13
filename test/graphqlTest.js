@@ -2,7 +2,7 @@ const graphql = require('graphql');
 const chai = require('chai');
 const chaiHttp = require('chai-http')
 const mongo = require('../mongoConfig')
-const db = require('../mongoConfig').getDB
+const db = mongo.getDB
 const app = require('../app')
 chai.use(chaiHttp)
 const expect = chai.expect;
@@ -11,6 +11,7 @@ describe('GraphQL queries and mutations', () => {
   let projectId
 
   before(() => {
+    console.log("BEFORE")
     mongo.connectDB((err) => {
       if (err) console.log(err)
       db().collection('projects').insertOne({name: "a project", ownerId: 1})
@@ -28,6 +29,7 @@ describe('GraphQL queries and mutations', () => {
   })
 
   after(() => {
+    console.log("AFTER")
     db().collection('projects').drop()
     db().collection('cards').drop()
   })
@@ -72,6 +74,7 @@ describe('GraphQL queries and mutations', () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200)
+        console.log(res.body.errors)
         expect(res.body.data.getProjectCards[0]).to.include({projectId: projectId})
         done()
       })
